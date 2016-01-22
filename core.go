@@ -13,7 +13,7 @@ type Operation struct {
 
 func main() {
 	bindHandlers()
-	printWelcomeMessage()
+	printWelcomeMessageToConsole()
 	startServer()
 }
 
@@ -22,7 +22,7 @@ func bindHandlers() {
 	http.HandleFunc("/quit", quitHttpHandler)
 }
 
-func printWelcomeMessage() {
+func printWelcomeMessageToConsole() {
 	fmt.Println("Now listening on :9993")
 }
 
@@ -50,6 +50,7 @@ func quitHttpHandler(writer http.ResponseWriter, response *http.Request) {
 	defer shutdown()
 	sendHttpStatusOk(writer)
 	sendByeMessageToClient(writer)
+	printByeMessageToConsole()
 }
 
 func sendHttpStatusOk(writer http.ResponseWriter) {
@@ -60,7 +61,7 @@ func sendByeMessageToClient(writer http.ResponseWriter) {
 	writer.Write([]byte("bye"))
 }
 
-func sendByeMessageToConsole() {
+func printByeMessageToConsole() {
 	fmt.Println("See you next time");
 }
 
