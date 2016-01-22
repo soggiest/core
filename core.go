@@ -48,11 +48,11 @@ func operationList() ([]Operation) {
 //TODO figure out how to get the writer to flush before the aplication shuts down
 func quitHttpHandler(writer http.ResponseWriter, response *http.Request) {
 	defer shutdown()
-	sendStatusOK(writer)
+	sendHttpStatusOk(writer)
 	sendByeMessageToClient(writer)
 }
 
-func sendStatusOK(writer http.ResponseWriter) {
+func sendHttpStatusOk(writer http.ResponseWriter) {
 	writer.WriteHeader(http.StatusOK)
 }
 
