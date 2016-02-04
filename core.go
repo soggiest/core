@@ -7,6 +7,10 @@ import (
 	"os"
 )
 
+type Status struct {
+	Status string `json:"status"`
+}
+
 type Operation struct {
 	Name	string	`json:"name"`
 }
@@ -18,6 +22,7 @@ func main() {
 }
 
 func bindHandlers() {
+	http.HandleFunc("/status", statusHttpHandler)
 	http.HandleFunc("/list", listHttpHandler)
 	http.HandleFunc("/quit", quitHttpHandler)
 }
@@ -30,6 +35,11 @@ func startServer() {
 	http.ListenAndServe(":9993", nil)
 }
 
+func statusHttpHandler(writer http.ResponseWriter, response *http.Request) {
+	ok := Status{ Status: "ok"}
+	json.NewEncoder(writer).Encode(ok)
+}
+
 func listHttpHandler(writer http.ResponseWriter, response *http.Request) {
 	json.NewEncoder(writer).Encode(operationList())
 }
@@ -38,6 +48,7 @@ func operationList() ([]Operation) {
 	type Operations []Operation
 
 	operations := Operations {
+		Operation{ Name: "/status" },
 		Operation{ Name: "/list" },
 		Operation{ Name: "/quit" },
 	}
@@ -68,4 +79,3 @@ func printByeMessageToConsole() {
 func shutdown() {
 	os.Exit(0)	// 0 == everything is ok
 }
-
